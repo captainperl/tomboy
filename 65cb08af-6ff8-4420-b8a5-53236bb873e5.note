@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<note version="0.3" xmlns:link="http://beatniksoftware.com/tomboy/link" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns="http://beatniksoftware.com/tomboy">
+  <title>links</title>
+  <text xml:space="preserve"><note-content version="0.1">links
+
+<link:url>http://rest.elkstein.org/</link:url>  rest
+<link:url>http://blog.ijasoneverett.com/2013/02/rest-api-a-simple-php-tutorial/</link:url><bold>  rest api tut</bold>
+
+<link:url>https://www.assembla.com/spaces/file_sender/wiki/Installation_-_Linux_Source_1-6</link:url>  file sender
+
+<link:url>http://www.zvon.org/xxl/XPathTutorial/General/examples.html</link:url>
+
+<link:url>https://redmine.phaidra.org/redmine/issues/2589</link:url>
+
+apt-cache show subversion
+cat <link:url>/etc/issue</link:url>
+uname -a
+nitrogen
+
+
+<link:url>https://ylvi.univie.ac.at/confluence/spaces/doexportspace.action?key=swdevel</link:url>    ylvi export
+
+<link:url>https://ylvi.univie.ac.at/confluence/download/attachments/52559956/Selbstevaluation__Phaidra_final.pdf?version=1&amp;modificationDate=1311331366000</link:url>
+
+
+<link:url>https://github.com/gonter/docu-tools</link:url> gonter confluence
+
+<link:url>http://www.whizkidtech.redprince.net/cgi-bin/tutorial</link:url> cgi
+<link:url>http://modernperlbooks.com/books/modern_perl/chapter_06.html</link:url>
+regexp perl
+
+<link:url>http://diveintohtml5.info/semantics.html</link:url>  html 
+</note-content></text>
+  <last-change-date>2013-12-05T15:44:33.7632160+01:00</last-change-date>
+  <last-metadata-change-date>2013-12-05T15:44:33.7657090+01:00</last-metadata-change-date>
+  <create-date>2013-10-28T11:20:06.5477820+01:00</create-date>
+  <cursor-position>815</cursor-position>
+  <selection-bound-position>815</selection-bound-position>
+  <width>450</width>
+  <height>360</height>
+  <x>0</x>
+  <y>0</y>
+  <tags>
+    <tag>system:notebook:uni</tag>
+  </tags>
+  <open-on-startup>False</open-on-startup>
+</note>

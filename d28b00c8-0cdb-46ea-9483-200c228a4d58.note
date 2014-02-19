@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<note version="0.3" xmlns:link="http://beatniksoftware.com/tomboy/link" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns="http://beatniksoftware.com/tomboy">
+  <title>other</title>
+  <text xml:space="preserve"><note-content version="0.1">other
+
+pem@stage:/stage/home/pem/git/phaidra-prod/objects/2008/0320/09/14$ 
+===========================================================
+
+Wie vorhin besprochen, anbei die 3 Eintrage aus der Produktionsinstanz
+(die "installationID" wird verwendet, um die jeweilige Instanz zu
+identifizieren):
+
+&lt;pre&gt;
+installationID: "phaidra.univie.ac.at"
+
+'Model::Fedora22':
+ schema_class: Fedora22
+ db_name: 'fedoramysql13'
+ db_host: 'fedoramysql13.mysql.univie.ac.at'
+ connect_info:
+   - 'dbi:mysql:fedoramysql13:fedoramysql13.mysql.univie.ac.at'
+   - 'fedora'
+   - 'PehANiCE'
+
+'MongoDB::inventory':
+  host: 'stage.phaidra.org'
+  user: 'fedora1.univie.ac.at'
+  pass: 'ugfTs0ejJQhMe97b'
+  db:   'ph001'
+&lt;/pre&gt;
+-----------------------------------------------
+imap:
+
+telnet
+open imap.univie.ac.at 143
+
+a1 LOGIN MyUsername MyPassword      a1 LOGIN adminp7 modPf2M8
+a2 LIST "" "*"
+a3 LIST "" "INBOX.%"
+a4 select INBOX                      a4 select INBOX.streaming.ph001.process
+
+a5 fetch 1:15 flags                       display emails
+a6 fetch 1 all
+a7 a15 fetch 1 (body[header.fields (from to subject date)])i
+
+copy 1:2 inbox.test3
+. select inbox.test3
+
+<link:url>http://adityo.blog.binusian.org/?tag=telnet-imap-command</link:url>
+
+
+---------twitter----------------------------
+<link:url>http://stackoverflow.com/questions/12916539/simplest-php-example-for-retrieving-user-timeline-with-twitter-api-version-1-1</link:url>
+
+<link:url>https://bitbucket.org/mnbayazit/twitterclient/src/8865f48fff52d737cab7de9fbf5fd470566f8ad7/TwitterClient.php?at=default</link:url>
+&lt;?php
+
+
+class TwitterClient {
+    private $host = '<link:url>https://api.twitter.com/1.1/';</link:url>
+    private $consumerKey;
+    private $consumerSecret;
+    private $oauthToken;
+    private $oauthTokenSecret;
+
+    public function __construct($consumer_key, $consumer_secret, $oauth_token, $oauth_token_secret) {
+        $this-&gt;consumerKey = $consumer_key;
+        $this-&gt;consumerSecret = $consumer_secret;
+        $this-&gt;oauthToken = $oauth_token;
+        $this-&gt;oauthTokenSecret = $oauth_token_secret;
+    }
+
+    protected static function request($method, $url, $params, $headers) {
+        if($headers===null) $headers = array();
+        if($params===null) $params = array();
+        $method = mb_strtoupper($method);
+        $contextHttp = array(
+            'method' =&gt; $method,
+        );
+        switch($method) {
+            case 'GET':
+                if($params) {
+                    $url .= '?'.http_build_query($params);
+                }
+                break;
+            case 'POST':
+            case 'PUT':
+                $content = $params ? http_build_query($params) : '';
+                $contextHttp['content'] = $content;
+                $headers['Content-Length'] = strlen($content);
+                break;
+            default:
+                throw new Exception('Unhandled method');
+        }
+        $headerSb = array();
+        foreach($headers as $k =&gt; $v) {
+            $headerSb[] = "$k: $v";
+        }
+        $contextHttp['header'] = implode("\r\n", $headerSb) . "\r\n";
+        $context = stream_context_create(array(
+            'http' =&gt; $contextHttp
+        ));
+        return file_get_contents($url, false, $context);
+    }
+
+    protected function buildAuthHeader($method, $baseUrl, $reqParams) {
+        $oauthParams = array(
+            'oauth_consumer_key' =&gt; $this-&gt;consumerKey,
+            'oauth_nonce' =&gt; uniqid(),
+            'oauth_signature_method' =&gt; 'HMAC-SHA1',
+            'oauth_timestamp' =&gt; time(),
+            'oauth_token' =&gt; $this-&gt;oauthToken,
+            'oauth_version' =&gt; '1.0',
+        );
+        $encParams = array_merge($oauthParams, $reqParams);
+        ksort($encParams);
+        $paramSb = array();
+        foreach($encParams as $k =&gt; $v) {
+            $paramSb[] = rawurlencode($k) . '=' . rawurlencode($v);
+        }
+        $paramStr = implode('&amp;', $paramSb);
+        $sigBaseStr = $method . '&amp;' . rawurlencode($baseUrl) . '&amp;' . rawurlencode($paramStr);
+        $signingKey = rawurlencode($this-&gt;consumerSecret) . '&amp;' . rawurlencode($this-&gt;oauthTokenSecret);
+        $oauthParams['oauth_signature'] = base64_encode(hash_hmac('sha1', $sigBaseStr, $signingKey, true));
+        ksort($oauthParams);
+        $authSb = array();
+        foreach($oauthParams as $k =&gt; $v) {
+            $authSb[] = rawurlencode($k) . '="' . rawurlencode($v) . '"';
+        }
+        return 'OAuth ' . implode(', ', $authSb);
+    }
+
+    protected function send($method, $resource, $params) {
+        if(!preg_match('~\.\w+$~',$resource)) {
+            $resource .= '.json';
+        }
+        $url = $this-&gt;host . ltrim($resource, '/');
+        $headers = array(
+            'Authorization' =&gt; $this-&gt;buildAuthHeader($method, $url, $params),
+        );
+        $response = self::request($method, $url, $params, $headers);
+        if($response === false) throw new Exception('Bad request');
+        return json_decode($response, true);
+    }
+
+    public function get($resource, $params) {
+        return $this-&gt;send('GET', $resource, $params);
+    }
+
+    public function post($resource, $params) {
+        return $this-&gt;send('POST', $resource, $params);
+    }
+}
+-------------------------
+michal@michal:~$ ssh-keygen -t rsa -C "<link:url>michal.folcan@univie.ac.at"</link:url>
+Generating public/private rsa key pair.
+Enter file in which to save the key (<link:url>/home/michal/.ssh/id_rsa</link:url>): pempublic
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in pempublic.
+Your public key has been saved in pempublic.pub.
+The key fingerprint is:
+22:3e:44:81:f2:39:02:d3:c9:7b:8a:22:b8:cd:61:94 <link:url>michal.folcan@univie.ac.at</link:url>
+The key's randomart image is:
++--[ RSA 2048]----+
+| o o.            |
+|+ =  .           |
+|.+ +.            |
+|. E..            |
+|.+ +o . S        |
+|= +o . .         |
+|o= .o            |
+|. o  .           |
+|                 |
++-----------------+
+michal@michal:~$ 
+--------------------------------------------
+
+
+Die Stanzas aus <link:url>/etc/phaidra.yml</link:url> zu den Datenbanken, die Dich
+interessieren duerften, lauten:
+
+&lt;pre&gt;
+'Model::PhaidraUserdataDB':
+        schema_class: PhaidraUserdataDB
+        db_name: 'phaidrs5mysql1'
+        db_host: 'phaidrs5mysql1.mysql.univie.ac.at'
+        connect_info:
+               -
+'dbi:mysql:phaidrs5mysql1:phaidrs5mysql1.mysql.univie.ac.at'
+               - 'phaidrs5'
+               - 'P82JH44u'
+               - AutoCommit: 1
+                 mysql_enable_utf8: 1
+this-&gt;
+'Model::Fedora22':
+        schema_class: Fedora22
+        db_name: 'phaidrs5mysql2'
+        db_host: 'phaidrs5mysql2.mysql.univie.ac.at'
+        connect_info:
+               -
+'dbi:mysql:phaidrs5mysql2:phaidrs5mysql2.mysql.univie.ac.at'
+               - 'phaidrs5'
+               - 'P82JH44u'
+
+imagemanipulator:
+        cachedir: "/usr/local/fedora/imagemanipulator"
+        tmpdir: "/usr/local/fedora/imagemanipulator/tmp"
+        maxconcurrency: 3
+        dbi_dsn:
+'dbi:mysql:phaidrs5mysql4:phaidrs5mysql4.mysql.univie.ac.at'
+        dbi_user: phaidrs5
+        dbi_pass: P82JH44u
+        dbi_name: phaidrs5mysql4
+        dbi_host: phaidrs5mysql4.mysql.univie.ac.at
+        resize:
+                maxwidth: 20000
+                maxheight: 20000
+        box:
+                maxsize: 1024
+        gettileinfo:
+                tilewidth: 256
+                tileheight: 256
+
+# Quota - in Bytes: Mailbox: 10GB, u:net: 1GB
+quotamailbox: 10000000000
+quotaunet: 1000000000
+
+&lt;/pre&gt;
+
+Die MongoDB ist wieder auf stage.phaidra.org daheim und heisst
+"sandbox", der User ist "<link:url>pem@stage.phaidra.org",</link:url> das Passwort
+lautet "uSZ2qrL0K9VWuYFn".
+
+&lt;pre&gt;
+stage:gg&gt; mongo
+MongoDB shell version: 2.2.4
+connecting to: test
+&gt; use sandbox
+switched to db sandbox
+&gt; <link:url>db.auth("pem@stage.phaidra.org",</link:url> "uSZ2qrL0K9VWuYFn")
+1
+&gt; show collections
+eod.manifest
+eod.toc
+events
+foxml.catalog
+foxml.data
+foxml.keys
+foxml.maint
+fs.chunks
+fs.files
+octets.catalog
+octets.data
+octets.keys
+octets.maint
+octets.paths
+system.indexes
+system.users
+&lt;/pre&gt;
+
+ph001 old user
+folcanm4
+chDrSsN1bTcuDp78
+
+--------------------------------------------
+<link:url>https://blockchain.info/wallet/demo-account#</link:url>
+<link:url>https://blockchain.info/address/1HB5XMLmzFVj8ALj6mfBsbifRoD4miY36v</link:url>
+<link:url>https://www.bitaddress.org/bitaddress.org-v2.6.2-SHA1-4d98755d7e78caa4361228a2b11b0faa0f65e6de.html</link:url>
+<link:url>https://www.mtgox.com/</link:url>
+
+
+
+
+
+</note-content></text>
+  <last-change-date>2014-01-30T14:13:28.9095540+01:00</last-change-date>
+  <last-metadata-change-date>2014-01-30T14:13:28.9105370+01:00</last-metadata-change-date>
+  <create-date>2013-10-28T11:20:40.5875600+01:00</create-date>
+  <cursor-position>7872</cursor-position>
+  <selection-bound-position>7872</selection-bound-position>
+  <width>872</width>
+  <height>641</height>
+  <x>0</x>
+  <y>0</y>
+  <tags>
+    <tag>system:notebook:uni</tag>
+  </tags>
+  <open-on-startup>False</open-on-startup>
+</note>

@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<note version="0.3" xmlns:link="http://beatniksoftware.com/tomboy/link" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns="http://beatniksoftware.com/tomboy">
+  <title>mysql and mongoDB</title>
+  <text xml:space="preserve"><note-content version="0.1">mysql and mongoDB
+
+<link:url>http://cheat.errtheblog.com/s/mongo</link:url> 
+it                  result of last line evaluated; use to further iterate
+
+---------------------------mongo----------------------
+(or login in ssh and use : mongo)
+mongo --host stage.phaidra.org
+use ph001;
+<link:url>db.auth("pem@stage.phaidra.org",</link:url> "dnIPVVIhAKrgvs1V");
+show collections;
+db.getCollection("octets.catalog").find();  
+------------------------------------------
+ssh <link:url>pem@stage.phaidra.org</link:url>
+mongo
+use sandbox;
+<link:url>db.auth("pem@stage.phaidra.org",</link:url> "uSZ2qrL0K9VWuYFn");
+--------------------------------------------------
+select  _id                 find
+db.foxml.data.findOne( {'_id' : ObjectId("52ea5864260a975f46c9acd3")} );
+--------------------------------------------------------
+insert
+db.products.insert( { item: "card", qty: 15 } );
+---------------------------------------------------
+db.auth("folcanm4","chDrSsN1bTcuDp78");
+db.fs.files.find();
+show collections;
+show dbs;
+use dbName;  ( also for creating new db)
+-------------------------------------------------------------
+<link:url>http://docs.mongodb.org/manual/reference/method/db.collection.find/</link:url>
+db.bios.find( { _id: 5 } )
+DBQuery.shellBatchSize = 300
+it  (show next 20 records in mongodb shell)
+------------------------------------------------------------
+<link:url>http://jean.marie.gouarne.online.fr/doc/mongodb_perl_fosdem_20130202.pdf</link:url>
+insert in mongodb:
+use MongoDB;
+# establish a first connection
+my $connection = MongoDB::MongoClient
+-&gt;new('mongodb://localhost:27017');
+# instantiate a DB object
+my $db = $connection-&gt;get_database('demo');
+# instantiate and use a collection
+my $collection = $db-&gt;get_collection('hello');
+my $id = $collection-&gt;insert(
+{ author =&gt; "JMG", text =&gt; "Hello World !" }
+);
+---------------------
+read from mongodb:
+$dataset = $collection-&gt;find(
+{ field1 =&gt; $value1, field2 =&gt; qr/xxx/i },
+{ field1 =&gt; 1, field4 =&gt; 1 }
+)-&gt;sort({ field1 =&gt; -1 });
+while ($doc = $dataset-&gt;next) {
+say "$doc-&gt;{field1} $doc-&gt;{field4}";
+}
+
+or
+
+my $cursor = $collection
+    -&gt;find({ active =&gt; 1, country =&gt; 'Canada' }) # filter "active" records from Canada
+    -&gt;sort({ stamp =&gt; -1 }) # order by "stamp" attribute, desc.
+    -&gt;limit(1000);          # first 1000 records
+-----------------------------------------
+update:
+$states = ['NY', 'TX', 'IL', 'CA'];
+$condition = {
+pop =&gt; {'$gt' =&gt; 100000},
+state =&gt; {'$in' =&gt; $states}
+};
+$action = {'$set' =&gt; {comment =&gt; "Large post office"};
+$cities-&gt;update($condition, $action, {multiple =&gt; 1});
+-------------------------------------------------
+remove maching condition:
+db.statistics.remove( { 'name.first' : <link:url>/^G/</link:url> } )
+
+db.statistics.remove({item : "fork"});
+ db.statistics.remove( {"_id": ObjectId("52a73de155a7ef1f1d000000")});
+--------------------------------------------------
+aggregation:
+sql:
+
+SELECT state, SUM(pop) AS pop
+FROM zips
+GROUP BY state
+HAVING pop &gt; (10000000)
+ORDER BY pop DESC
+
+equivalent to this mongodb select:
+
+my $dataset = $c-&gt;aggregate([
+ {'$group' =&gt;
+ {'_id' =&gt; '$state', 'totalPop' =&gt;
+ {'$sum' =&gt; '$pop' }
+ }
+ },
+ {'$match' =&gt;
+ {'totalPop' =&gt; { '$gte' =&gt; 10000000 }}
+ },
+ {'$sort' =&gt; { totalPop =&gt; -1 }}
+]);
+-------------------------
+db.getCollection("octets.catalog").find({"path" : <link:url>/.*o_19606\+OCTETS\+OCTETS.*/});</link:url>   mysql like %
+--------------------------
+db.foo.update({bar: 100}, {$set: {bar: 1000}}, false, true)      
+
+where statment for mongodb : 
+update every document in the Foo collection that has a bar value of 100 to 1000.
+
+in perl:
+$users-&gt;update({"_id" =&gt; $id}, {'$set' =&gt; {'name' =&gt; 'joe_schmoe'}});
+
+SELECT * FROM collection WHERE _id IN (1,2,3,4);    &lt;=&gt;  db.collection.find( { _id : { $in : [1,2,3,4] } } );
+<link:url>http://docs.mongodb.org/manual/reference/operator/query/</link:url>
+----------------------------------------
+$collectionEvents-&gt;find({key =&gt; $object_key})-&gt;count();
+--------------------------------------------
+db.getCollection("octets.catalog").find({"path": <link:url>/.*203213.*/});</link:url>    like statemet, regex
+------------
+create collection:
+db.createCollection("events.test");
+--------------
+delete collection:
+db.getCollection("event.test").drop();
+
+$collection-&gt;remove({ answer =&gt; { '$ne' =&gt; 42 } });   #delete where answer != 42 in perl
+$db-&gt;get_database( 'users' )-&gt;remove( { z =&gt; "abc" } ); #delete where answer = 42 in perl
+<link:url>http://search.cpan.org/~friedo/MongoDB-0.702.2/lib/MongoDB/Examples.pod</link:url>  good doc for mongoDb perl !!!!!
+<link:url>http://api.mongodb.org/perl/current/MongoDB/Collection.html#remove%20%28%24query%3f%2c%20%24options%3f%29</link:url>
+---------------------
+truncate, empty collection:
+db.events.test.remove();
+--------------------------------------
+db.orders.distinct( 'ord_dt' )
+---------------------------------------------------------
+----------------------M Y S Q L-----------------------
+---------------------------------------------------------
+
+mysql:
+
+<link:url>http://www.tutorialspoint.com/mysql/mysql-drop-tables.htm</link:url>
+<link:url>http://zetcode.com/db/mysqlperl/</link:url>  db and perl
+
+mysql -u root -p
+show databases;
+use mydatabese;
+show tables;
+select * from tablename;
+INSERT INTO table_name ( field1, field2,...fieldN ) VALUES ( "value1", "value2", "valueN" );
+INSERT INTO Cars (Name, Price ) VALUES ("Skoda", "23000");
+
+
+
+
+mysql -u root -p
+use mydb
+INSERT INTO Cars (Name, Price ) VALUES ("Seat", "31000");
+
+SHOW COLUMNS FROM mytable FROM mydb;
+SHOW COLUMNS FROM mytable;
+
+DROP TABLE tutorials_tbl;
+
+mysql -h "localhost" -u "root" "-p" "mydb"
+
+
+mysqldump -p --host=fedoramysql15.mysql.univie.ac.at --user=fedora fedoramysql15 image &gt; <link:url>/home/michal/Documents/videostream2.sql;</link:url>
+mysql -u root -p -D videostream &lt; <link:url>/home/michal/Documents/videostream2.sql</link:url>
+
+truncate table; delete all records in table
+mysqldump -h hostname -p --user=username dbname tableName &gt; tableName.sql
+</note-content></text>
+  <last-change-date>2014-02-19T14:03:42.1833960+01:00</last-change-date>
+  <last-metadata-change-date>2014-02-19T14:03:42.1884050+01:00</last-metadata-change-date>
+  <create-date>2013-10-28T11:55:27.4797110+01:00</create-date>
+  <cursor-position>4029</cursor-position>
+  <selection-bound-position>4029</selection-bound-position>
+  <width>957</width>
+  <height>360</height>
+  <x>598</x>
+  <y>323</y>
+  <tags>
+    <tag>system:notebook:uni</tag>
+  </tags>
+  <open-on-startup>False</open-on-startup>
+</note>

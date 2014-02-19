@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<note version="0.3" xmlns:link="http://beatniksoftware.com/tomboy/link" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns="http://beatniksoftware.com/tomboy">
+  <title>ubuntu</title>
+  <text xml:space="preserve"><note-content version="0.1">ubuntu
+ssh -X <link:url>pem@stage.phaidra.org</link:url>         
+(X - tunel forwarding for using gui over ssh) 
+
+ssh <link:url>pem@stage.phaidra.org</link:url>
+export PERL5LIB=/home/foobar/code
+pwd    -showing curent directory
+
+man screen
+bash -l
+env
+cat .profile 
+vi .profile
+chsh
+pwd
+
+rm -rf directroyName                   remove directory with its content
+---------
+kill $(ps aux |grep evolution |awk '{print $2}')
+
+...this command kills what is output from the commands chained together inside the parentheses. The first command outputs a snapshot list of running processes; grep filters this down to lines containing the term evolution; awk then takes the second token which would equate to the process ID. The returned value to the kill command is a series of process IDs. A command like this might be more useful than killall when you not only want to kill processes by a certain name but also associated processes, perhaps a python script for a plugin or similar.
+
+ls -R | less
+---------
+(type in local mashine)
+scp <link:url>pem@stage.phaidra.org:/home/pem/work/area42/user/mf/StreamingMonitoring/catalog/all_foxml.catalog</link:url> all_foxml.catalog
+
+copieng from remote server to local mashine
+----------
+copieng from local mashine to remote server
+scp gridfs.pl <link:url>pem@stage.phaidra.org:/home/pem/work/area42/user/mf/pem/bin</link:url> 
+------------
+df .                           show used space
+----------
+du -h /                            human readable     
+du -h 
+----
+run one script from another with parameters
+
+my @gridfs_args; 
+push (@gridfs_args, "-get"); 
+push (@gridfs_args, "all_foxml.catalog"); 
+system("$Bin/gridfs.pl", @gridfs_args);
+
+or
+{local @ARGV = (@gridfs_args); do $script;}
+
+--------------------------------------------------------------------
+
+
+ o:307234
+
+create shorcut:
+sudo apt-get install --no-install-recommends gnome-panel
+
+Then type below code in terminal and hit enter
+
+gnome-desktop-item-edit <link:url>~/Desktop/</link:url> --create-new
+
+-------------------------------------------------------------------
+<link:url>http://www.vogella.com/articles/Ubuntu/article.html</link:url>
+------------------------------------------------------------------
+sudo touch <link:url>/etc/phaidra.yml</link:url>
+sudo chown michal <link:url>/etc/phaidra.yml</link:url>
+-----------------------------------------------------------------
+unpacking zip
+sudo tar xvzf <link:url>/home/mike/Downloads/simplesamlphp-1.10.0.tar.gz</link:url>
+________________________________________
+<link:url>http://www.thegeekstuff.com/2010/10/linux-ln-command-examples/</link:url>   ln,  link
+------------------------------------------------------------
+sudo apt-get install tasksel       lamp 
+----------------------------------------
+perl statisticUsedSpace.pl|less
+
+perl statisticUsedSpace.pl &gt;@ 
+vi @
+
+-----------------------------------------
+
+Apache:
+sudo <link:url>/etc/init.d/apache2</link:url> restart       -&gt;restarting of the apache
+sudo service apache2 reload      -&gt;restarting of the apache
+sudo service apache2 restart
+service postgresql-8.4 reload   -&gt;postgree server restart
+================
+setting up diffrent port:
+<link:url>/etc/apache2/ports.conf</link:url>
+      NameVirtualHost *:80
+      Listen 80
+      Listen 8083
+<link:url>/etc/apache2/sites-enabled/000-default</link:url>
+    &lt;VirtualHost *:8083&gt;
+    DocumentRoot "/var/www/test"
+  &lt;/VirtualHost&gt;
+================     
+<link:url>/var/www</link:url>
+<link:url>/usr/lib/cgi-bin</link:url>
+================
+sudo service apache2 restart
+
+apt-get install libapache-mod-perl
+
+<link:url>/var/log/apache2/error.log</link:url>
+================
+
+</note-content></text>
+  <last-change-date>2014-02-17T11:42:21.5349800+01:00</last-change-date>
+  <last-metadata-change-date>2014-02-17T11:42:21.5371250+01:00</last-metadata-change-date>
+  <create-date>2013-10-28T11:23:30.8024320+01:00</create-date>
+  <cursor-position>932</cursor-position>
+  <selection-bound-position>932</selection-bound-position>
+  <width>978</width>
+  <height>360</height>
+  <x>0</x>
+  <y>0</y>
+  <tags>
+    <tag>system:notebook:uni</tag>
+  </tags>
+  <open-on-startup>False</open-on-startup>
+</note>

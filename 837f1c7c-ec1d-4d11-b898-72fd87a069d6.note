@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<note version="0.3" xmlns:link="http://beatniksoftware.com/tomboy/link" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns="http://beatniksoftware.com/tomboy">
+  <title>Termine</title>
+  <text xml:space="preserve"><note-content version="0.1">Termine
+
+08.11.2013 11:30 - 13:30, Hörsaal III, Neues Institutsgebäude, Stiege 1, Erdgeschoß, <link:internal>links</link:internal> , Universitätsstraße 7  sicherkeit kurz
+<link:url>https://www.univie.ac.at/kursdatenbank/kurse/kurse.html</link:url></note-content></text>
+  <last-change-date>2013-10-29T12:09:04.3996990+01:00</last-change-date>
+  <last-metadata-change-date>2013-10-29T12:09:04.4038280+01:00</last-metadata-change-date>
+  <create-date>2013-10-29T12:07:59.2430020+01:00</create-date>
+  <cursor-position>139</cursor-position>
+  <selection-bound-position>139</selection-bound-position>
+  <width>450</width>
+  <height>360</height>
+  <x>0</x>
+  <y>0</y>
+  <tags>
+    <tag>system:notebook:uni</tag>
+  </tags>
+  <open-on-startup>False</open-on-startup>
+</note>

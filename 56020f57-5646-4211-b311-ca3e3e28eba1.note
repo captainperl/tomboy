@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<note version="0.3" xmlns:link="http://beatniksoftware.com/tomboy/link" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns="http://beatniksoftware.com/tomboy">
+  <title>other links</title>
+  <text xml:space="preserve"><note-content version="0.1">other links
+
+<link:url>http://durak.org/sean/pubs/software/version-control-with-subversion-1.6/svn.tour.treeconflicts.html</link:url>   <link:internal>svn</link:internal> conflicts
+
+
+<link:url>http://www.lizardgrid.com/blog/php-crud-tutorial-part-1/</link:url>  php twitter bootstrap crud
+
+
+
+&lt;<link:url>http://www.meetup.com/Vienna-Perl-Mongers/events/152782472/&gt;</link:url>
+&lt;<link:url>http://www.meetup.com/Vienna-Perl-Mongers/events/152782472/ical/Treffen+im+Dezember+2013.ics&gt;</link:url>
+
+<link:url>/home/pem/phaidra-prod/objects/</link:url>
+
+<link:url>http://stackoverflow.com/questions/9273016/why-is-this-inline-block-element-pushed-downward</link:url>
+
+<link:url>http://nrich.maths.org/2200</link:url>
+</note-content></text>
+  <last-change-date>2014-02-19T16:54:52.3548260+01:00</last-change-date>
+  <last-metadata-change-date>2014-02-19T16:54:52.3570480+01:00</last-metadata-change-date>
+  <create-date>2013-10-28T11:22:12.9388650+01:00</create-date>
+  <cursor-position>501</cursor-position>
+  <selection-bound-position>501</selection-bound-position>
+  <width>450</width>
+  <height>360</height>
+  <x>0</x>
+  <y>0</y>
+  <tags>
+    <tag>system:notebook:uni</tag>
+  </tags>
+  <open-on-startup>False</open-on-startup>
+</note>
